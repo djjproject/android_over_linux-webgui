@@ -1,0 +1,28 @@
+.container{
+  padding-top:20px;
+}
+
+.itemname {
+    font-weight: bold;
+	font-size: 1.1em;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
+@media (min-width: 992px) {
+  .container {
+    width: 950px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 950px;
+  }
+}

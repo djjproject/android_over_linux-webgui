@@ -1,0 +1,41 @@
+#!/bin/bash
+
+case "$1" in
+	model)
+		cat /system/build.prop | grep ro.product.board | sed -n 1p | awk -F "=" '{print $2}'
+		;;
+	eaddr)
+		echo `ip addr show | grep eth0 | grep inet | grep brd | awk '{print $2}' | awk -F/ '{print $1}'`
+		;;
+	waddr)
+		echo `ip addr show | grep wlan0 | grep inet | grep brd | awk '{print $2}' | awk -F/ '{print $1}'`
+		;;
+	cpu)
+		echo `grep -c processor /proc/cpuinfo`' x'' '`cat /proc/cpuinfo | grep Processor | sed -n 1p | awk -F ":" '{print $2}'`' '`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq | cut -c1-4`'MHz'
+		;;
+	cpuusage)
+		echo $[100-$(vmstat 1 2|tail -1|awk '{print $15}')]
+		;;
+	board)
+		cat /proc/cpuinfo | grep Hardware | awk -F ":" '{print $2}'
+		;;
+	memall)
+		echo `expr $(cat /proc/meminfo | grep MemTotal | awk '{print $2}') / 1024`
+		;;
+	memfree)
+		echo `expr $(cat /proc/meminfo | grep MemAvailable | awk '{print $2}') / 1024`
+		;;
+	swapall)
+		echo `expr $(cat /proc/meminfo | grep SwapTotal | awk '{print $2}') / 1024`
+		;;
+	swapfree)
+		echo `expr $(cat /proc/meminfo | grep SwapFree | awk '{print $2}') / 1024`
+		;;
+	uptime)
+		uptime
+		;;
+	
+		
+	*)
+		;;
+esac
