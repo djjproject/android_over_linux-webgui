@@ -34,7 +34,18 @@ case "$1" in
 	uptime)
 		uptime
 		;;
-	
+	device)
+		df -h --output=source,used,size,pcent | grep -v 'tmpfs' | grep -v '/data/media' | awk '{print $1}' | awk -F "/" '{print $NF}' | sed -n `expr $2 + 1`p
+		;;
+	deviceused)
+		df -h --output=source,used,size,pcent | grep -v 'tmpfs' | grep -v '/data/media' | awk '{print $2}' | sed -n `expr $2 + 1`p
+		;;
+	devicesize)
+		df -h --output=source,used,size,pcent | grep -v 'tmpfs' | grep -v '/data/media' | awk '{print $3}' | sed -n `expr $2 + 1`p
+		;;
+	deviceavail)
+		df -h --output=source,used,size,pcent | grep -v 'tmpfs' | grep -v '/data/media' | awk '{print $4}' | sed -n `expr $2 + 1`p | awk -F "%" '{print $1}'
+		;;
 		
 	*)
 		;;
