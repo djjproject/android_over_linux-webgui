@@ -7,6 +7,11 @@
 	font-size: 1.1em;
 }
 
+.margin0 {
+	margin: 0px 0px 0px 0px;
+	padding: 0px;
+}
+
 .container {
   padding-right: 15px;
   padding-left: 15px;

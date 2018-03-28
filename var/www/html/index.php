@@ -1,22 +1,31 @@
 <?php
+
+  $script="/usr/lib/aolwebgui/dashboard";
   
-  $model=exec("/usr/lib/aolwebgui/dashboard model");
-  $eaddr=exec("/usr/lib/aolwebgui/dashboard eaddr");
+  $model=exec("$script model");
+  $eaddr=exec("$script eaddr");
   if ($eaddr=="") $eaddr="not connected";
-  $waddr=exec("/usr/lib/aolwebgui/dashboard waddr");
+  $waddr=exec("$script waddr");
   if ($waddr=="") $waddr="not connected";
-  $cpu=exec("/usr/lib/aolwebgui/dashboard cpu");
-  $board=exec("/usr/lib/aolwebgui/dashboard board");
-  $memall=exec("/usr/lib/aolwebgui/dashboard memall");
-  $uptime=exec("/usr/lib/aolwebgui/dashboard uptime");
-  $cpuusage=exec("/usr/lib/aolwebgui/dashboard cpuusage");
+  $cpu=exec("$script cpu");
+  $board=exec("$script board");
+  $memall=exec("$script memall");
+  $uptime=exec("$script uptime");
+  $cpuusage=exec("$script cpuusage");
+  
+  $memuse=exec("$script memuse");
+  $mem_percent=round($memuse / $memall * 100,0);
+  
+  $swapuse=exec("$script swapuse");
+  $swapall=exec("$script swapall");
+  $swap_percent=round($swapuse / $swapall * 100,0);
 
 ?>
 
 <html lang="en">
 <head>
   <title>AndroidOverLinux Web</title>
-  <meta http-equiv="refresh" content="5">
+<meta http-equiv="refresh" content="5">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -50,31 +59,43 @@
   
   <div class="row">
     <div class="col-sm-12">
-      <div class="panel panel-default">
+      <div class="panel panel-default panel-info">
         <div class="panel-heading">System</div>
         <div class="panel-body">
-          <div class="row">
-            <div class="col-sm-2 itemname">Model</div>
-            <div class="col-sm-4"><?=$model?></div>
-            <div class="col-sm-2 itemname">Ethernet IP</div>
-            <div class="col-sm-4"><?=$eaddr?></div>
-          </div>
-          <div class="row">
-            <div class="col-sm-2 itemname">CPU</div>
-            <div class="col-sm-4"><?=$cpu?></div>
-            <div class="col-sm-2 itemname">WiFi IP</div>
-            <div class="col-sm-4"><?=$waddr?></div>
-          </div>
-          <div class="row">
-            <div class="col-sm-2 itemname">RAM</div>
-            <div class="col-sm-4"><?=$memall?>MB</div>
-            <div class="col-sm-2 itemname">Board</div>
-            <div class="col-sm-4"><?=$board?></div>
-          </div>
-		  <div class="row">
-			<div class="col-sm-2 itemname">UPTime</div>
-            <div class="col-sm-10"><?=$uptime?></div>
-		  </div>
+			<div class="col-sm-6 margin0">
+			  <div class="row">
+				<div class="col-sm-4 itemname">Model</div>
+				<div class="col-sm-8"><?=$model?></div>
+			  </div>
+			  <div class="row">
+				<div class="col-sm-4 itemname">CPU</div>
+				<div class="col-sm-8"><?=$cpu?></div>
+			  </div>
+			  <div class="row">
+				<div class="col-sm-4 itemname">RAM</div>
+				<div class="col-sm-8"><?=$memall?>MB</div>
+			  </div>
+			</div>
+			<div class="col-sm-6 margin0">
+			  <div class="row">
+				<div class="col-sm-4 itemname">Ethernet IP</div>
+				<div class="col-sm-8"><?=$eaddr?></div>
+			  </div>
+			  <div class="row">
+				<div class="col-sm-4 itemname">WiFi IP</div>
+				<div class="col-sm-8"><?=$waddr?></div>
+			  </div>
+			  <div class="row">
+				<div class="col-sm-4 itemname">Board</div>
+				<div class="col-sm-8"><?=$board?></div>
+			  </div>
+			</div>
+			<div class="col-sm-12 margin0">
+				<div class="row">
+					<div class="col-sm-2 itemname">UPTime</div>
+					<div class="col-sm-10"><?=$uptime?></div>
+				</div>
+			</div>
         </div>
       </div>
     </div>
@@ -86,7 +107,7 @@
         <div class="panel-heading">Resource</div>
         <div class="panel-body">
           <div class="row">
-            <div class="col-sm-2">CPU Usage</div>
+            <div class="col-sm-2 itemname">CPU Usage</div>
             <div class="col-sm-10">
               <div class="progress">
                 <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="<?=$cpuusage?>" aria-valuemin="0" aria-valuemax="100" style="width:<?=$cpuusage?>%"><?=$cpuusage?>%</div>
@@ -94,18 +115,18 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-2">Ram Usage</div>
+            <div class="col-sm-2 itemname">Ram Usage</div>
             <div class="col-sm-10">
               <div class="progress">
-                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:80%">80% (1722MB/1819MB)</div>
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="<?=$mem_percent?>" aria-valuemin="0" aria-valuemax="100" style="width:<?=$mem_percent?>%"><?=$mem_percent?>% (<?=$memuse?>MB/<?=$memall?>MB)</div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-2">Swap Usage</div>
+            <div class="col-sm-2 itemname">Swap Usage</div>
             <div class="col-sm-10">
               <div class="progress">
-                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:20%">20% (200MB/800MB)</div>
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="<?=$swap_percent?>" aria-valuemin="0" aria-valuemax="100" style="width:<?=$swap_percent?>%"><?=$swap_percent?>% (<?=$swapuse?>MB/<?=$swapall?>MB)</div>
               </div>
             </div>
           </div>
@@ -120,7 +141,7 @@
         <div class="panel-heading">Disk Usage</div>
         <div class="panel-body">
           <div class="row">
-            <div class="col-sm-2">/data</div>
+            <div class="col-sm-2 itemname">/data</div>
             <div class="col-sm-10">
               <div class="progress">
                 <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%">25% (1.4GB/9GB)</div>
@@ -128,7 +149,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-2">sda1</div>
+            <div class="col-sm-2 itemname">sda1</div>
             <div class="col-sm-10">
               <div class="progress">
                 <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:31%">31% (1.2T/3.7T)</div>
@@ -136,7 +157,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-2">sdb1</div>
+            <div class="col-sm-2 itemname">sdb1</div>
             <div class="col-sm-10">
               <div class="progress">
                 <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:42%">42% (3GB/7.2GB)</div>
