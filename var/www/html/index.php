@@ -19,6 +19,8 @@
   $swapuse=exec("$script swapuse");
   $swapall=exec("$script swapall");
   $swap_percent=round($swapuse / $swapall * 100,0);
+  
+  
 
 ?>
 
@@ -33,6 +35,7 @@
   <link href="style.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="favicon.ico" rel="icon" type="image/x-icon">
 </head>
 
 <body>
@@ -42,7 +45,7 @@
 		var currentLocation = window.location;
 		$("#refresh").load(currentLocation + ' #refresh');
 	}
-	setInterval('autoRefresh_div()', 3000);
+	setInterval('autoRefresh_div()', 10000);
 </script>
 
 <div class="container">
@@ -177,7 +180,49 @@
 				</div>
 			</div>
 		</div>
+    
+    <?php
+    $traffic=exec("$script traffic");
+    ?>
+  
+  
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="panel panel-default panel-info">
+          <div class="panel-heading">Network Traffic</div>
+           <div class="panel-body">
+            <img src="eth0.png" class="img-responsive" style="width:100%" onerror="this.style.display='none'">
+            <img src="wlan0.png" class="img-responsive" style="width:100%" onerror="this.style.display='none'">
+           </div>
+        </div>
+      </div>
+      
+      <div class="col-sm-6">
+        <div class="panel panel-default panel-info">
+          <div class="panel-heading">Enabled Service</div>
+           <div class="panel-body">
+              <?php 
+              $index=1;
+              $service=exec("$script getservice $index");
+              $is_same="rawdata";
+              while ($service!="") {
+                echo '<div class="row"><div class="col-sm-6">'.$service.'</div></div>';
+                $index++;
+                $service=exec("$script getservice $index");
+              }
+              ?>
+              
+           </div>
+        </div>
+      </div>
+    </div>
+  
+    
+    
+    
+    
 	</div>
+  
 	
 </div>
 

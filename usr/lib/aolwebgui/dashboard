@@ -46,6 +46,14 @@ case "$1" in
 	deviceavail)
 		df -h --output=source,used,size,pcent | grep -v 'tmpfs' | grep -v '/data/media' | awk '{print $4}' | sed -n `expr $2 + 1`p | awk -F "%" '{print $1}'
 		;;
+	getservice)
+		ls /etc/rc3.d/ | grep -v K01bootlogs | grep -v README | sed -n `expr $2`p | cut -b4-
+		;;
+	traffic)
+		vnstati -s -i wlan0 -o /var/www/html/wlan0.png
+		vnstati -s -i eth0 -o /var/www/html/eth0.png
+		;;
+	
 		
 	*)
 		;;
